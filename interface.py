@@ -43,19 +43,19 @@ def print_all_weapons():
 
 
 # func 3#
-def print_all_legends_weapons():
+def print_all_legends_and_weapons():
     # connect to database#
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
     # sql command query to execute#
-    sql = "SELECT LegendName,WeaponName FROM Legend,Weapon;"
-    cursor.execute(sql)
+    sql1 = "SELECT LegendName FROM Legend;"
+    cursor.execute(sql1)
     results = cursor.fetchall()
     # print results#
     print('''Legends  Weapons
     ''')
     for item in results:
-        print(f"{item[0]:<10} {item[1]:<10}")
+        print(f"{item[0]:<10}")
     # close db#
     db.close()
 
@@ -77,11 +77,28 @@ def print_all_legends_and_their_weapons():
     # close db#
     db.close()
 
+# func 5#
+def search_legend_with_1_weapon()
+    # connect to database#
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    # sql command query to execute#
+    sql = f"SELECT LegendName,Weapon1,Weapon2 FROM Legend WHERE Weapon1 OR Weapon2 = {Weapon1};"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    # print results#
+    print('''Legends    Weapon 1   Weapon 2
+    ''')
+    for item in results:
+        print(f"{item[0]:<10} {item[1]:<10} {item[2]:<10}")
+    # close db#
+    db.close()
+
 
 # main code#
 
 # ask what function users want to use#
-while True:
+while True: 
     print('''
 Functions:
 1. Print all Legends
@@ -105,7 +122,24 @@ Functions:
     if AskQuestion == 2:
         print_all_weapons()
         break
-
+    if AskQuestion == 3:
+        print_all_legends_and_weapons()
     if AskQuestion == 4:
         print_all_legends_and_their_weapons()
         break
+    if AskQuestion == 5:
+        input('''Type a weapon to see what Legends are able to use it: 
+        1. Weapons:
+        2. Hammer
+        3. Sword
+        4. Blasters
+        5. Lance
+        6. Katars
+        7. Axe
+        8. Bow
+        9. Gauntlets
+        10. Scythe
+        11. Cannon
+        12. Orb
+        13. Greatsword
+        14. Boots''')
