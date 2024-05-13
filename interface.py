@@ -1,4 +1,5 @@
-'''Rory Collins - Python interface to interact with Brawlhalla database using SQL'''
+'''Python interface to interact with Brawlhalla database using SQL
+- Rory Collins'''
 # imports#
 import sqlite3
 DATABASE = "brawlhalla.db"
@@ -189,7 +190,7 @@ Enter another number: '''))
         ''')
         if len(results) <= 0:
             print('''No legends with those two weapons :(
-    Please try again.''')
+Please try again.''')
         else:
             for item in results:
                 print(f"{item[0]:<10}")
@@ -222,21 +223,21 @@ Functions:
             # if users input is valid
             if AskQuestion == 1:
                 print_all_legends()
-                break
+
             if AskQuestion == 2:
                 print_all_weapons()
-                break
+
             if AskQuestion == 3:
                 print_all_legends_and_weapons()
-                break
+
             if AskQuestion == 4:
                 print_all_legends_and_their_weapons()
-                break
+
             if AskQuestion == 5:
                 search_legend_with_weapon()
-                break
+
             if AskQuestion == 6:
                 search_legend_with_weapons()
-                break
+
     except ValueError:
         print("Not a valid function. Try again.")
