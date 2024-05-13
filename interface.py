@@ -1,10 +1,24 @@
 '''Python interface to interact with Brawlhalla database using SQL
 - Rory Collins'''
+
+# to do list
+# 1> Add legend
+# 2> Edit legend
+# 3> Delete legend
+# 4> End the world :) DONE
+
 # imports#
 import sqlite3
 DATABASE = "brawlhalla.db"
 
+legendcount = 52
+weaponcount = 13
 # functions#
+
+
+# func 0#
+def end():
+    print("Ending interface. Bye!!")
 
 
 # func 1#
@@ -199,6 +213,62 @@ Please try again.''')
     else:
         print("Not a valid number. Try again.")
 
+# function 7#
+
+
+def add_legend():
+    # connect to database#
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    # sql command query to execute#
+    legendName = input("Name of legend: ")
+    Weapon1ID = int(input('''Weapons:
+1. Hammer
+2. Sword
+3. Blasters
+4. Lance
+5. Spear
+6. Katars
+7. Axe
+8. Bow
+9. Gauntlets
+10. Scythe
+11. Cannon
+12. Orb
+13. Greatsword
+What weapon do they have?: '''))
+    Weapon2ID = int(input('''Weapons:
+1. Hammer
+2. Sword
+3. Blasters
+4. Lance
+5. Spear
+6. Katars
+7. Axe
+8. Bow
+9. Gauntlets
+10. Scythe
+11. Cannon
+12. Orb
+13. Greatsword
+What other weapon do they have?: '''))
+    sql = f'''INSERT INTO Legend (legendName, weapon1ID, weapon2ID)
+VALUES ('{legendName}', {Weapon1ID}, {Weapon2ID});'''
+    cursor.execute(sql)
+    results = cursor.fetchall
+    print(results)
+    sql2 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon1ID};"
+    cursor.execute(sql2)
+    Weapon1 = cursor.fetchall()
+    Weapon1 = str(Weapon1)[3:-4]
+    sql3 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon2ID};"
+    cursor.execute(sql3)
+    Weapon2 = cursor.fetchall()
+    Weapon2 = str(Weapon2)[3:-4]
+    print(f"Added new legend named {legendName}, with {Weapon1}, and {Weapon2}")
+    # close db#
+    db.close()
+
 
 # main code#
 
@@ -206,6 +276,7 @@ Please try again.''')
 while True:
     print('''
 Functions:
+0. Quit
 1. Print all Legends
 2. Print all Weapons
 3. Print all Legends and Weapons
@@ -217,10 +288,13 @@ Functions:
     # account for invalid inputs#
     try:
         AskQuestion = int(input("What do you want to do? "))
-        if AskQuestion > 6:
+        if AskQuestion > 9:
             print("Not a valid function. Try again.")
         else:
             # if users input is valid
+            if AskQuestion == 0:
+                end()
+                break
             if AskQuestion == 1:
                 print_all_legends()
 
@@ -238,6 +312,10 @@ Functions:
 
             if AskQuestion == 6:
                 search_legend_with_weapons()
+
+            if AskQuestion == 7:
+                legendcount += 1
+                add_legend()
 
     except ValueError:
         print("Not a valid function. Try again.")
