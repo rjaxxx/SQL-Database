@@ -213,14 +213,9 @@ Please try again.''')
     else:
         print("Not a valid number. Try again.")
 
-# function 7#
 
-
+# func 7#
 def add_legend():
-    # connect to database#
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor()
-    # sql command query to execute#
     legendName = input("Name of legend: ")
     Weapon1ID = int(input('''Weapons:
 1. Hammer
@@ -252,11 +247,14 @@ What weapon do they have?: '''))
 12. Orb
 13. Greatsword
 What other weapon do they have?: '''))
+    # connect to database#
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    # sql command query to execute#
     sql = f'''INSERT INTO Legend (legendName, weapon1ID, weapon2ID)
 VALUES ('{legendName}', {Weapon1ID}, {Weapon2ID});'''
     cursor.execute(sql)
-    results = cursor.fetchall
-    print(results)
+    db.commit()
     sql2 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon1ID};"
     cursor.execute(sql2)
     Weapon1 = cursor.fetchall()
@@ -265,9 +263,87 @@ VALUES ('{legendName}', {Weapon1ID}, {Weapon2ID});'''
     cursor.execute(sql3)
     Weapon2 = cursor.fetchall()
     Weapon2 = str(Weapon2)[3:-4]
-    print(f"Added new legend named {legendName}, with {Weapon1}, and {Weapon2}")
+    print(f"Added new Legend named {legendName}, with {Weapon1} and {Weapon2}")
     # close db#
     db.close()
+
+
+# func 8#
+def delete_legend():
+    # connect to database#
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    # sql command query to execute#
+    legendName = input("What is the name of the legend you want to delete?: ")
+    sql = f'''DELETE FROM Legend WHERE legendName = '{legendName}';'''
+    cursor.execute(sql)
+    db.commit()
+    print(f"Deleted a Legend named {legendName}.")
+    # close db#
+    db.close()
+
+
+# func 9#
+def edit_legend():
+    # connect to database#
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    # sql command query to execute#
+    legendName = input("What is the name of the legend you want to edit?: ")
+    sql4 = f"SELECT legendName FROM Legend WHERE legendName = '{legendName}';"
+    cursor.execute(sql4)
+    results = cursor.fetchall
+    if len(str(results)) < 1:
+        print(f"No legend named {legendName}")
+    else:
+        Weapon1ID = int(input('''Weapons:
+1. Hammer
+2. Sword
+3. Blasters
+4. Lance
+5. Spear
+6. Katars
+7. Axe
+8. Bow
+9. Gauntlets
+10. Scythe
+11. Cannon
+12. Orb
+13. Greatsword
+What weapon do you want them to have?: '''))
+        Weapon2ID = int(input('''Weapons:
+1. Hammer
+2. Sword
+3. Blasters
+4. Lance
+5. Spear
+6. Katars
+7. Axe
+8. Bow
+9. Gauntlets
+10. Scythe
+11. Cannon
+12. Orb
+13. Greatsword
+What other weapon do you want them to have?: '''))
+        sql = f'''UPDATE Legend
+        SET legendName = '{legendName}',
+        Weapon1ID = {Weapon1ID}, Weapon2ID = {Weapon2ID}
+        WHERE legendName = '{legendName}';'''
+        cursor.execute(sql)
+        db.commit()
+        sql2 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon1ID};"
+        cursor.execute(sql2)
+        Weapon1 = cursor.fetchall()
+        Weapon1 = str(Weapon1)[3:-4]
+        sql3 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon2ID};"
+        cursor.execute(sql3)
+        Weapon2 = cursor.fetchall()
+        Weapon2 = str(Weapon2)[3:-4]
+        print(f'''Edited a Legend named {legendName}.
+So they now have {Weapon1} and {Weapon2}''')
+        # close db#
+        db.close()
 
 
 # main code#
@@ -283,6 +359,9 @@ Functions:
 4. Print all Legends and their Weapons
 5. Search for Legends with 1 Weapon
 6. Search for Legends with 2 Weapons
+7. Add a new Legend
+8. Delete a Legend
+9. Edit a Legend
 ''')
 
     # account for invalid inputs#
@@ -314,8 +393,12 @@ Functions:
                 search_legend_with_weapons()
 
             if AskQuestion == 7:
-                legendcount += 1
                 add_legend()
 
+            if AskQuestion == 8:
+                delete_legend()
+
+            if AskQuestion == 9:
+                edit_legend()
     except ValueError:
         print("Not a valid function. Try again.")
