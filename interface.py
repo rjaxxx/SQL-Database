@@ -123,6 +123,7 @@ Weapons:
 11. Cannon
 12. Orb
 13. Greatsword
+14. Boots
 Enter number: '''))
     # connect to database#
     db = sqlite3.connect(DATABASE)
@@ -163,6 +164,7 @@ Weapons:
 11. Cannon
 12. Orb
 13. Greatsword
+14. Boots
 Enter number: '''))
     Weapon2ID = int(input('''
 Type another number next to a weapon to see what Legends are able to use it:
@@ -180,6 +182,7 @@ Weapons:
 11. Cannon
 12. Orb
 13. Greatsword
+14. Boots
 Enter another number: '''))
     if Weapon2ID < 14 and Weapon1ID < 14:
         # connect to database#
@@ -231,6 +234,7 @@ def add_legend():
 11. Cannon
 12. Orb
 13. Greatsword
+14. Boots
 What weapon do they have?: '''))
     Weapon2ID = int(input('''Weapons:
 1. Hammer
@@ -246,6 +250,7 @@ What weapon do they have?: '''))
 11. Cannon
 12. Orb
 13. Greatsword
+14. Boots
 What other weapon do they have?: '''))
     # connect to database#
     db = sqlite3.connect(DATABASE)
@@ -310,6 +315,7 @@ def edit_legend():
 11. Cannon
 12. Orb
 13. Greatsword
+14. Boots
 What weapon do you want them to have?: '''))
         Weapon2ID = int(input('''Weapons:
 1. Hammer
@@ -325,6 +331,7 @@ What weapon do you want them to have?: '''))
 11. Cannon
 12. Orb
 13. Greatsword
+14. Boots
 What other weapon do you want them to have?: '''))
         sql = f'''UPDATE Legend
         SET legendName = '{legendName}',
@@ -346,6 +353,60 @@ So they now have {Weapon1} and {Weapon2}''')
         db.close()
 
 
+# func 10#
+def quiz():
+    typeofquiz = int(input("What type of quiz do you want to do? "))
+    try:
+        amount = int(input("How many questions?: "))
+        # connect to database#
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        # sql command query to execute#
+        for i in range(amount):
+            # select random legend#
+            sql = '''SELECT legendName FROM Legend
+ORDER BY RANDOM()
+LIMIT 1'''
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            # results = (['NAME'])
+            results = str(results)[3:-4]
+            # results = NAME#
+            sql2 = f'''SELECT weapon1ID FROM Legend
+WHERE legendName = '{results}';'''
+            cursor.execute(sql2)
+            Weapon1ID = cursor.fetchall()
+            # Weapon1ID = (ID,)#
+            Weapon1ID = str(Weapon1ID)[2:-3]
+            # Weapon1ID = ID#
+            sql3 = f'''SELECT weapon2ID FROM Legend
+WHERE legendName = '{results}';'''
+            cursor.execute(sql3)
+            Weapon2ID = cursor.fetchall()
+            # Weapon2ID = (ID,)#
+            Weapon2ID = str(Weapon2ID)[2:-3]
+            # Weapon2ID = ID#
+            sql4 = f'''SELECT WeaponName FROM Weapon
+WHERE WeaponID = {Weapon1ID};'''
+            cursor.execute(sql4)
+            Weapon1 = cursor.fetchall()
+            Weapon1 = str(Weapon1)[3:-4]
+            sql5 = f'''SELECT WeaponName FROM Weapon
+WHERE WeaponID = {Weapon2ID};'''
+            cursor.execute(sql5)
+            Weapon2 = cursor.fetchall()
+            Weapon2 = str(Weapon2)[3:-4]
+            answer = input(f"What legend has {Weapon1} and {Weapon2}?: ")
+            if answer.lower() == results.lower():
+                print("Correct!!")
+            else:
+                print(f"Incorrect, its {results}!")
+        # close db#
+        db.close()
+    except ValueError:
+        print("Not a valid number. Try again.")
+
+
 # main code#
 
 # ask what function users want to use#
@@ -362,12 +423,13 @@ Functions:
 7. Add a new Legend
 8. Delete a Legend
 9. Edit a Legend
+10. Quiz
 ''')
 
     # account for invalid inputs#
     try:
         AskQuestion = int(input("What do you want to do? "))
-        if AskQuestion > 9:
+        if AskQuestion > 10:
             print("Not a valid function. Try again.")
         else:
             # if users input is valid
@@ -400,5 +462,8 @@ Functions:
 
             if AskQuestion == 9:
                 edit_legend()
+            
+            if AskQuestion == 10:
+                quiz()
     except ValueError:
         print("Not a valid function. Try again.")
