@@ -1,18 +1,10 @@
 '''Python interface to interact with Brawlhalla database using SQL
 - Rory Collins'''
 
-# to do list
-# 1> Add legend
-# 2> Edit legend
-# 3> Delete legend
-# 4> End the world :) DONE
-
 # imports#
 import sqlite3
 DATABASE = "brawlhalla.db"
 
-legendcount = 52
-weaponcount = 13
 # functions#
 
 
@@ -355,56 +347,121 @@ So they now have {Weapon1} and {Weapon2}''')
 
 # func 10#
 def quiz():
-    typeofquiz = int(input("What type of quiz do you want to do? "))
     try:
-        amount = int(input("How many questions?: "))
-        # connect to database#
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
-        # sql command query to execute#
-        for i in range(amount):
-            # select random legend#
-            sql = '''SELECT legendName FROM Legend
-ORDER BY RANDOM()
-LIMIT 1'''
-            cursor.execute(sql)
-            results = cursor.fetchall()
-            # results = (['NAME'])
-            results = str(results)[3:-4]
-            # results = NAME#
-            sql2 = f'''SELECT weapon1ID FROM Legend
-WHERE legendName = '{results}';'''
-            cursor.execute(sql2)
-            Weapon1ID = cursor.fetchall()
-            # Weapon1ID = (ID,)#
-            Weapon1ID = str(Weapon1ID)[2:-3]
-            # Weapon1ID = ID#
-            sql3 = f'''SELECT weapon2ID FROM Legend
-WHERE legendName = '{results}';'''
-            cursor.execute(sql3)
-            Weapon2ID = cursor.fetchall()
-            # Weapon2ID = (ID,)#
-            Weapon2ID = str(Weapon2ID)[2:-3]
-            # Weapon2ID = ID#
-            sql4 = f'''SELECT WeaponName FROM Weapon
-WHERE WeaponID = {Weapon1ID};'''
-            cursor.execute(sql4)
-            Weapon1 = cursor.fetchall()
-            Weapon1 = str(Weapon1)[3:-4]
-            sql5 = f'''SELECT WeaponName FROM Weapon
-WHERE WeaponID = {Weapon2ID};'''
-            cursor.execute(sql5)
-            Weapon2 = cursor.fetchall()
-            Weapon2 = str(Weapon2)[3:-4]
-            answer = input(f"What legend has {Weapon1} and {Weapon2}?: ")
-            if answer.lower() == results.lower():
-                print("Correct!!")
-            else:
-                print(f"Incorrect, its {results}!")
-        # close db#
-        db.close()
+        typeofquiz = int(input('''What type of quiz do you want to do?
+1. Guess Legend based on two weapons
+2. Guess two Weapons based on Legend
+'''))
+        if typeofquiz > 2:
+            print("Invalid number.")
+        else:
+            if typeofquiz == 1:
+                try:
+                    amount = int(input("How many questions?: "))
+                    # connect to database#
+                    db = sqlite3.connect(DATABASE)
+                    cursor = db.cursor()
+                    # sql command query to execute#
+                    for i in range(amount):
+                        # select random legend#
+                        sql = '''SELECT legendName FROM Legend
+            ORDER BY RANDOM()
+            LIMIT 1'''
+                        cursor.execute(sql)
+                        results = cursor.fetchall()
+                        # results = (['NAME'])
+                        results = str(results)[3:-4]
+                        # results = NAME#
+                        sql2 = f'''SELECT weapon1ID FROM Legend
+            WHERE legendName = '{results}';'''
+                        cursor.execute(sql2)
+                        Weapon1ID = cursor.fetchall()
+                        # Weapon1ID = (ID,)#
+                        Weapon1ID = str(Weapon1ID)[2:-3]
+                        # Weapon1ID = ID#
+                        sql3 = f'''SELECT weapon2ID FROM Legend
+            WHERE legendName = '{results}';'''
+                        cursor.execute(sql3)
+                        Weapon2ID = cursor.fetchall()
+                        # Weapon2ID = (ID,)#
+                        Weapon2ID = str(Weapon2ID)[2:-3]
+                        # Weapon2ID = ID#
+                        sql4 = f'''SELECT WeaponName FROM Weapon
+            WHERE WeaponID = {Weapon1ID};'''
+                        cursor.execute(sql4)
+                        Weapon1 = cursor.fetchall()
+                        Weapon1 = str(Weapon1)[3:-4]
+                        sql5 = f'''SELECT WeaponName FROM Weapon
+            WHERE WeaponID = {Weapon2ID};'''
+                        cursor.execute(sql5)
+                        Weapon2 = cursor.fetchall()
+                        Weapon2 = str(Weapon2)[3:-4]
+                        answer = input(f"What legend has {Weapon1} and {Weapon2}?: ")
+                        if answer.lower() == results.lower():
+                            print("Correct!!")
+                        else:
+                            print(f"Incorrect, its {results}!")
+                    # close db#
+                    db.close()
+                except ValueError:
+                    print("Not a valid number. Try again.")
+            if typeofquiz == 2:
+                try:
+                    amount = int(input("How many questions?: "))
+                    # connect to database#
+                    db = sqlite3.connect(DATABASE)
+                    cursor = db.cursor()
+                    # sql command query to execute#
+                    for i in range(amount):
+                        # select random legend#
+                        sql = '''SELECT legendName FROM Legend
+            ORDER BY RANDOM()
+            LIMIT 1'''
+                        cursor.execute(sql)
+                        results = cursor.fetchall()
+                        # results = (['NAME'])
+                        results = str(results)[3:-4]
+                        # results = NAME#
+                        sql2 = f'''SELECT weapon1ID FROM Legend
+            WHERE legendName = '{results}';'''
+                        cursor.execute(sql2)
+                        Weapon1ID = cursor.fetchall()
+                        # Weapon1ID = (ID,)#
+                        Weapon1ID = str(Weapon1ID)[2:-3]
+                        # Weapon1ID = ID#
+                        sql3 = f'''SELECT weapon2ID FROM Legend
+            WHERE legendName = '{results}';'''
+                        cursor.execute(sql3)
+                        Weapon2ID = cursor.fetchall()
+                        # Weapon2ID = (ID,)#
+                        Weapon2ID = str(Weapon2ID)[2:-3]
+                        # Weapon2ID = ID#
+                        sql4 = f'''SELECT WeaponName FROM Weapon
+            WHERE WeaponID = {Weapon1ID};'''
+                        cursor.execute(sql4)
+                        Weapon1 = cursor.fetchall()
+                        Weapon1 = str(Weapon1)[3:-4]
+                        sql5 = f'''SELECT WeaponName FROM Weapon
+            WHERE WeaponID = {Weapon2ID};'''
+                        cursor.execute(sql5)
+                        Weapon2 = cursor.fetchall()
+                        Weapon2 = str(Weapon2)[3:-4]
+                        answer1 = input(f"{results} has two weapons, what is the first one?: ")
+                        if answer1.lower() == Weapon1.lower() or answer1.lower() == Weapon2.lower():
+                            print("Correct!!")
+                        else:
+                            print("Incorrect.")
+                        answer2 = input(f"{results} has two weapons, what is the second one?: ")
+                        if answer2.lower() == Weapon1.lower() or answer2.lower() == Weapon2.lower():
+                            print("Correct!!")
+                        else:
+                            print(f"Incorrect, it's {Weapon1} and {Weapon2}!")
+                    # close db#
+                    db.close()
+                except ValueError:
+                    print("Not a valid number. Try again.")
     except ValueError:
-        print("Not a valid number. Try again.")
+        print("Invalid number.")
 
 
 # main code#
@@ -462,7 +519,7 @@ Functions:
 
             if AskQuestion == 9:
                 edit_legend()
-            
+
             if AskQuestion == 10:
                 quiz()
     except ValueError:
