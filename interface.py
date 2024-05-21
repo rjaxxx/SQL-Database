@@ -356,6 +356,7 @@ def quiz():
             print("Invalid number.")
         else:
             if typeofquiz == 1:
+                correctq = 0
                 try:
                     amount = int(input("How many questions?: "))
                     # connect to database#
@@ -399,6 +400,7 @@ def quiz():
                         answer = input(f"What legend has {Weapon1} and {Weapon2}?: ")
                         if answer.lower() == results.lower():
                             print("Correct!!")
+                            correctq += 1
                         else:
                             print(f"Incorrect, its {results}!")
                     # close db#
@@ -406,6 +408,7 @@ def quiz():
                 except ValueError:
                     print("Not a valid number. Try again.")
             if typeofquiz == 2:
+                correctq = 0
                 try:
                     amount = int(input("How many questions?: "))
                     # connect to database#
@@ -413,6 +416,8 @@ def quiz():
                     cursor = db.cursor()
                     # sql command query to execute#
                     for i in range(amount):
+                        q1correct = 0
+                        q2correct = 0
                         # select random legend#
                         sql = '''SELECT legendName FROM Legend
             ORDER BY RANDOM()
@@ -449,13 +454,18 @@ def quiz():
                         answer1 = input(f"{results} has two weapons, what is the first one?: ")
                         if answer1.lower() == Weapon1.lower() or answer1.lower() == Weapon2.lower():
                             print("Correct!!")
+                            q1correct = 1
                         else:
                             print("Incorrect.")
                         answer2 = input(f"{results} has two weapons, what is the second one?: ")
                         if answer2.lower() == Weapon1.lower() or answer2.lower() == Weapon2.lower():
                             print("Correct!!")
+                            q1correct = 1
                         else:
-                            print(f"Incorrect, it's {Weapon1} and {Weapon2}!")
+                            if q1correct == 1 and q2correct == 1:
+                                correctq += 1
+                                print(f"Incorrect, it's {Weapon1} and {Weapon2}!")
+                    print(f"Your score was: {correctq}/{amount}")
                     # close db#
                     db.close()
                 except ValueError:
