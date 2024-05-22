@@ -355,8 +355,8 @@ def quiz():
         if typeofquiz > 2:
             print("Invalid number.")
         else:
+            correctq = 0
             if typeofquiz == 1:
-                correctq = 0
                 try:
                     amount = int(input("How many questions?: "))
                     # connect to database#
@@ -407,8 +407,9 @@ def quiz():
                     db.close()
                 except ValueError:
                     print("Not a valid number. Try again.")
+                percent = int(correctq) / int(amount) * 100
+                print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
             if typeofquiz == 2:
-                correctq = 0
                 try:
                     amount = int(input("How many questions?: "))
                     # connect to database#
@@ -460,12 +461,13 @@ def quiz():
                         answer2 = input(f"{results} has two weapons, what is the second one?: ")
                         if answer2.lower() == Weapon1.lower() or answer2.lower() == Weapon2.lower():
                             print("Correct!!")
-                            q1correct = 1
+                            q2correct = 1
                         else:
-                            if q1correct == 1 and q2correct == 1:
-                                correctq += 1
-                                print(f"Incorrect, it's {Weapon1} and {Weapon2}!")
-                    print(f"Your score was: {correctq}/{amount}")
+                            print(f"Incorrect, it's {Weapon1} and {Weapon2}!")
+                        if q1correct == 1 and q2correct == 1:
+                            correctq += 1
+                    percent = int(correctq) / int(amount) * 100
+                    print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
                     # close db#
                     db.close()
                 except ValueError:
