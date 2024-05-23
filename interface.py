@@ -3,6 +3,8 @@
 
 # imports#
 import sqlite3
+
+# variables#
 DATABASE = "brawlhalla.db"
 
 # functions#
@@ -99,6 +101,7 @@ JOIN Weapon AS Weapon2 ON Legend.Weapon2ID = Weapon2.WeaponID;'''
 
 # func 5#
 def search_legend_with_weapon():
+    # take weapon to search for#
     Weapon1ID = int(input('''
 Type a the number next to a weapon to see what Legends are able to use it:
 Weapons:
@@ -140,6 +143,7 @@ Enter number: '''))
 
 # func 6#
 def search_legend_with_weapons():
+    # take first weapon to search for#
     Weapon1ID = int(input('''
 Type a the number next to a weapon to see what Legends are able to use it:
 Weapons:
@@ -158,6 +162,7 @@ Weapons:
 13. Greatsword
 14. Boots
 Enter number: '''))
+    # take second weapon to search for#
     Weapon2ID = int(input('''
 Type another number next to a weapon to see what Legends are able to use it:
 Weapons:
@@ -197,6 +202,7 @@ Enter another number: '''))
         # print results#
         print(f'''Legends with {Weapon1} and {Weapon2}:
         ''')
+        # if no legends then print#
         if len(results) <= 0:
             print('''No legends with those two weapons :(
 Please try again.''')
@@ -211,7 +217,9 @@ Please try again.''')
 
 # func 7#
 def add_legend():
+    # take legend name#
     legendName = input("Name of legend: ")
+    # take first weapon#
     Weapon1ID = int(input('''Weapons:
 1. Hammer
 2. Sword
@@ -227,7 +235,8 @@ def add_legend():
 12. Orb
 13. Greatsword
 14. Boots
-What weapon do they have?: '''))
+What weapon do they have? (Enter number): '''))
+    # take second weapon#
     Weapon2ID = int(input('''Weapons:
 1. Hammer
 2. Sword
@@ -243,7 +252,7 @@ What weapon do they have?: '''))
 12. Orb
 13. Greatsword
 14. Boots
-What other weapon do they have?: '''))
+What other weapon do they have? (Enter number): '''))
     # connect to database#
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
@@ -271,6 +280,7 @@ def delete_legend():
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
     # sql command query to execute#
+    # take legend name#
     legendName = input("What is the name of the legend you want to delete?: ")
     sql = f'''DELETE FROM Legend WHERE legendName = '{legendName}';'''
     cursor.execute(sql)
@@ -293,6 +303,7 @@ def edit_legend():
     if len(str(results)) < 1:
         print(f"No legend named {legendName}")
     else:
+        # take first weapon#
         Weapon1ID = int(input('''Weapons:
 1. Hammer
 2. Sword
@@ -308,7 +319,8 @@ def edit_legend():
 12. Orb
 13. Greatsword
 14. Boots
-What weapon do you want them to have?: '''))
+What weapon do you want them to have? (Enter number): '''))
+        # take second weapon#
         Weapon2ID = int(input('''Weapons:
 1. Hammer
 2. Sword
@@ -324,7 +336,7 @@ What weapon do you want them to have?: '''))
 12. Orb
 13. Greatsword
 14. Boots
-What other weapon do you want them to have?: '''))
+What other weapon do you want them to have? (Enter number): '''))
         sql = f'''UPDATE Legend
         SET legendName = '{legendName}',
         Weapon1ID = {Weapon1ID}, Weapon2ID = {Weapon2ID}
@@ -340,7 +352,7 @@ What other weapon do you want them to have?: '''))
         Weapon2 = cursor.fetchall()
         Weapon2 = str(Weapon2)[3:-4]
         print(f'''Edited a Legend named {legendName}.
-So they now have {Weapon1} and {Weapon2}''')
+So they now have {Weapon1} and {Weapon2}!''')
         # close db#
         db.close()
 
@@ -348,6 +360,7 @@ So they now have {Weapon1} and {Weapon2}''')
 # func 10#
 def quiz():
     try:
+        # take type of quiz#
         typeofquiz = int(input('''What type of quiz do you want to do?
 1. Guess Legend based on two weapons
 2. Guess two Weapons based on Legend
@@ -358,6 +371,7 @@ def quiz():
             correctq = 0
             if typeofquiz == 1:
                 try:
+                    # take number of questions#
                     amount = int(input("How many questions?: "))
                     # connect to database#
                     db = sqlite3.connect(DATABASE)
@@ -411,6 +425,7 @@ def quiz():
                 print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
             if typeofquiz == 2:
                 try:
+                    # take question amount#
                     amount = int(input("How many questions?: "))
                     # connect to database#
                     db = sqlite3.connect(DATABASE)
