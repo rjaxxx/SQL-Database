@@ -10,4 +10,4 @@ It has ten different functions:
 7. Add a new Legend (Add a new Legend to the database with your chosen name and two weapons.)
 8. Delete a Legend (Delete a Legend from the database by typing its name.)
 9. Edit a Legend (Edit a Legend by typing its name and choosing its two new weapons.)
-10. Quiz (Take a fun quiz where you guess a Legend's name based on what two weapons it has!)
+10. Quiz (1. Take a fun quiz where you guess a Legend's name based on what two weapons it has. OR 2. Take an alternate option where you guess a Legend's weapons based on it's name. )
