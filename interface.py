@@ -236,8 +236,11 @@ def add_legend():
 13. Greatsword
 14. Boots
 What weapon do they have? (Enter number): '''))
-    # take second weapon#
-    Weapon2ID = int(input('''Weapons:
+    if Weapon1ID > 14:
+        print("Invalid input")
+    else:
+        # take second weapon#
+        Weapon2ID = int(input('''Weapons:
 1. Hammer
 2. Sword
 3. Blasters
@@ -253,25 +256,28 @@ What weapon do they have? (Enter number): '''))
 13. Greatsword
 14. Boots
 What other weapon do they have? (Enter number): '''))
-    # connect to database#
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor()
-    # sql command query to execute#
-    sql = f'''INSERT INTO Legend (legendName, weapon1ID, weapon2ID)
-VALUES ('{legendName}', {Weapon1ID}, {Weapon2ID});'''
-    cursor.execute(sql)
-    db.commit()
-    sql2 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon1ID};"
-    cursor.execute(sql2)
-    Weapon1 = cursor.fetchall()
-    Weapon1 = str(Weapon1)[3:-4]
-    sql3 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon2ID};"
-    cursor.execute(sql3)
-    Weapon2 = cursor.fetchall()
-    Weapon2 = str(Weapon2)[3:-4]
-    print(f"Added new Legend named {legendName}, with {Weapon1} and {Weapon2}")
-    # close db#
-    db.close()
+        if Weapon2ID > 14:
+            print("Invalid input")
+        else:
+            # connect to database#
+            db = sqlite3.connect(DATABASE)
+            cursor = db.cursor()
+            # sql command query to execute#
+            sql = f'''INSERT INTO Legend (legendName, weapon1ID, weapon2ID)
+        VALUES ('{legendName}', {Weapon1ID}, {Weapon2ID});'''
+            cursor.execute(sql)
+            db.commit()
+            sql2 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon1ID};"
+            cursor.execute(sql2)
+            Weapon1 = cursor.fetchall()
+            Weapon1 = str(Weapon1)[3:-4]
+            sql3 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon2ID};"
+            cursor.execute(sql3)
+            Weapon2 = cursor.fetchall()
+            Weapon2 = str(Weapon2)[3:-4]
+            print(f"Added new Legend named {legendName}, with {Weapon1} and {Weapon2}")
+            # close db#
+            db.close()
 
 
 # func 8#
@@ -513,7 +519,7 @@ Functions:
     # account for invalid inputs#
     try:
         AskQuestion = int(input("What do you want to do? "))
-        if AskQuestion > 10:
+        if AskQuestion > 10 or AskQuestion < 0:
             print("Not a valid function. Try again.")
         else:
             # if users input is valid

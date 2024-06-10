@@ -1,5 +1,6 @@
 This is my Brawlhalla SQL Database Python Interface Assessment made for my Computer Science and Software Engineering class.
 It has ten different functions:
+
 0. Quit (Exit the database)
 1. Print all Legends (Print all Legend names.)
 2. Print all Weapons (Print all Weapon names.)
