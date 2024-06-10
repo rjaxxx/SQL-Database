@@ -285,12 +285,13 @@ def delete_legend():
     # connect to database#
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    # sql command query to execute#
     # take legend name#
     legendName = input("What is the name of the legend you want to delete?: ")
+    # sql command query to execute#
     sql = f'''DELETE FROM Legend WHERE legendName = '{legendName}';'''
     cursor.execute(sql)
     db.commit()
+    # print results#
     print(f"Deleted a Legend named {legendName}.")
     # close db#
     db.close()
@@ -343,6 +344,7 @@ What weapon do you want them to have? (Enter number): '''))
 13. Greatsword
 14. Boots
 What other weapon do you want them to have? (Enter number): '''))
+        # update legend#
         sql = f'''UPDATE Legend
         SET legendName = '{legendName}',
         Weapon1ID = {Weapon1ID}, Weapon2ID = {Weapon2ID}
@@ -418,6 +420,7 @@ def quiz():
                         Weapon2 = cursor.fetchall()
                         Weapon2 = str(Weapon2)[3:-4]
                         answer = input(f"What legend has {Weapon1} and {Weapon2}?: ")
+                        # check answer is correct#
                         if answer.lower() == results.lower():
                             print("Correct!!")
                             correctq += 1
@@ -427,6 +430,7 @@ def quiz():
                     db.close()
                 except ValueError:
                     print("Not a valid number. Try again.")
+                # print correct question score and percent#
                 percent = int(correctq) / int(amount) * 100
                 print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
             if typeofquiz == 2:
@@ -474,6 +478,7 @@ def quiz():
                         Weapon2 = cursor.fetchall()
                         Weapon2 = str(Weapon2)[3:-4]
                         answer1 = input(f"{results} has two weapons, what is the first one?: ")
+                        # check answers are correct#
                         if answer1.lower() == Weapon1.lower() or answer1.lower() == Weapon2.lower():
                             print("Correct!!")
                             q1correct = 1
@@ -485,8 +490,10 @@ def quiz():
                             q2correct = 1
                         else:
                             print(f"Incorrect, it's {Weapon1} and {Weapon2}!")
+                        # if both questions are correct, add 1 to correct question total#
                         if q1correct == 1 and q2correct == 1:
                             correctq += 1
+                    # print correct question score and percent#
                     percent = int(correctq) / int(amount) * 100
                     print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
                     # close db#
@@ -524,6 +531,7 @@ Functions:
         else:
             # if users input is valid
             if AskQuestion == 0:
+                # end database#
                 end()
                 break
             if AskQuestion == 1:
