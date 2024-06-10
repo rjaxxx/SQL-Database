@@ -236,7 +236,7 @@ def add_legend():
 13. Greatsword
 14. Boots
 What weapon do they have? (Enter number): '''))
-    if Weapon1ID > 14:
+    if Weapon1ID > 14 or Weapon1ID < 0:
         print("Invalid input")
     else:
         # take second weapon#
@@ -256,7 +256,7 @@ What weapon do they have? (Enter number): '''))
 13. Greatsword
 14. Boots
 What other weapon do they have? (Enter number): '''))
-        if Weapon2ID > 14:
+        if Weapon2ID > 14 or Weapon2ID < 0:
             print("Invalid input")
         else:
             # connect to database#
