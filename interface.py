@@ -181,7 +181,7 @@ Weapons:
 13. Greatsword
 14. Boots
 Enter another number: '''))
-    if Weapon2ID < 14 and Weapon1ID < 14:
+    if Weapon2ID < 15 and Weapon1ID < 15:
         # connect to database#
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
