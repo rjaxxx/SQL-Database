@@ -431,8 +431,11 @@ def quiz():
                 except ValueError:
                     print("Not a valid number. Try again.")
                 # print correct question score and percent#
-                percent = int(correctq) / int(amount) * 100
-                print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
+                try:
+                    percent = int(correctq) / int(amount) * 100
+                    print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
+                except:
+                    print("Invalid score.")
             if typeofquiz == 2:
                 try:
                     # take question amount#
@@ -494,8 +497,11 @@ def quiz():
                         if q1correct == 1 and q2correct == 1:
                             correctq += 1
                     # print correct question score and percent#
-                    percent = int(correctq) / int(amount) * 100
-                    print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
+                    try:
+                        percent = int(correctq) / int(amount) * 100
+                        print(f"Your score was: [{correctq}/{amount}] ({percent}%)")
+                    except:
+                        print("Invalid score.")
                     # close db#
                     db.close()
                 except ValueError:
