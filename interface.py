@@ -120,25 +120,28 @@ Weapons:
 13. Greatsword
 14. Boots
 Enter number: '''))
-    # connect to database#
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor()
-    # sql command query to execute#
-    sql1 = f'''SELECT LegendName FROM Legend
-    WHERE Weapon1ID = {Weapon1ID} OR Weapon2ID = {Weapon1ID};'''
-    cursor.execute(sql1)
-    results = cursor.fetchall()
-    sql2 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon1ID};"
-    cursor.execute(sql2)
-    Weapon1 = cursor.fetchall()
-    Weapon1 = str(Weapon1)[3:-4]
-    # print results#
-    print(f'''Legends with {Weapon1}:
-    ''')
-    for item in results:
-        print(f"{item[0]:<10}")
-    # close db#
-    db.close()
+    if Weapon1ID > 14 or Weapon1ID < 0:
+        print("Invalid input")
+    else:
+        # connect to database#
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        # sql command query to execute#
+        sql1 = f'''SELECT LegendName FROM Legend
+        WHERE Weapon1ID = {Weapon1ID} OR Weapon2ID = {Weapon1ID};'''
+        cursor.execute(sql1)
+        results = cursor.fetchall()
+        sql2 = f"SELECT WeaponName FROM Weapon WHERE WeaponID = {Weapon1ID};"
+        cursor.execute(sql2)
+        Weapon1 = cursor.fetchall()
+        Weapon1 = str(Weapon1)[3:-4]
+        # print results#
+        print(f'''Legends with {Weapon1}:
+        ''')
+        for item in results:
+            print(f"{item[0]:<10}")
+        # close db#
+        db.close()
 
 
 # func 6#
@@ -181,7 +184,7 @@ Weapons:
 13. Greatsword
 14. Boots
 Enter another number: '''))
-    if Weapon2ID < 14 and Weapon1ID < 14:
+    if Weapon2ID < 15 and Weapon1ID < 15:
         # connect to database#
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
