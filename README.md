@@ -12,3 +12,4 @@ It has ten different functions:
 8. Delete a Legend (Delete a Legend from the database by typing its name.)
 9. Edit a Legend (Edit a Legend by typing its name and choosing its two new weapons.)
 10. Quiz (1. Take a fun quiz where you guess a Legend's name based on what two weapons it has. OR 2. Take an alternate option where you guess a Legend's weapons based on it's name. )
+![AllUnlocked_1920x1080](https://github.com/rjaxxx/SQL-Database/assets/160965662/49b85c14-6a66-4050-83f5-e68f63f42ae8)
